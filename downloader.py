@@ -2,26 +2,32 @@ from yt_dlp import YoutubeDL
 from cli_to_api import cli_to_api
 
 class Downloader:
-    def __init__(self):
-        self.default_options = ["--embed-thumbnail", "--quiet"]
 
     def downloadAudio(self, links : list, dest="~/Downloads/", playlist=False):
-        actual_dest = dest + "%(title)s.%(ext)s"
-        options = [
-            '-o', actual_dest,
-            '-t', 'mp3',
-            '--yes-playlist' if playlist else '--no-playlist'
-        ] + self.default_options
-        self.download(links, options)
+        self.download(links, ['-t', 'mp3'], dest, playlist)
 
-    def download(self, links, options):
-        api_opt = cli_to_api(options)
+    def downloadVideo(self, links : list, dest="~/Downloads/", playlist=False):
+        self.download(links, ['-t', 'mp4'], dest, playlist)
+
+    def download(self, links : list, options : list, dest="~/Downloads/", playlist=False):
+        actual_dest = dest + "%(title)s.%(ext)s"
+
+        cli_opt = options + [
+            '-o', actual_dest,
+            '--yes-playlist' if playlist else '--no-playlist',
+            "--embed-thumbnail",
+            "--quiet"
+        ]
+
+        api_opt = cli_to_api(cli_opt)
+
         api_opt.update({
             'progress_hooks': [downloading_hook],
             'postprocessor_hooks': [done_hook]
         })
+
         with YoutubeDL(api_opt) as ytd:
-            ytd.download(URL)
+            ytd.download(links)
 
 
 def downloading_hook(d):
@@ -34,9 +40,5 @@ def downloading_hook(d):
 
 def done_hook(d):
     if d['status'] == 'finished':
-        print("TUTTO FATTO!")
+        print(d['postprocessor'], "-- FINITO!")
 
-URL = ["https://www.youtube.com/watch?v=9ruLQ1Hmhjs"]
-
-dwld = Downloader()
-dwld.downloadAudio(URL)

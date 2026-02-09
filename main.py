@@ -1,4 +1,7 @@
-from downloader_dep import downloadAudio, downloadVideo
+from downloader import Downloader
 
 if __name__ == "__main__":
-    pass # TODO
+    URL = ["https://www.youtube.com/watch?v=9ruLQ1Hmhjs"] # TESTING URL
+
+    dl = Downloader()
+    dl.downloadAudio(URL)
