@@ -25,29 +25,16 @@ class Downloader:
 
         api_opt = cli_to_api(cli_opt)
 
-        api_opt.update({
-            'progress_hooks': [self.progress_hook],
-            'postprocessor_hooks': [self.postprocessing_hook]
-        })
-
         with YoutubeDL(api_opt) as ytd:
+            if self.progress_hook is not None:
+                ytd.add_progress_hook(self.progress_hook)
+            if self.postprocessing_hook is not None:
+                ytd.add_postprocessor_hook(self.postprocessing_hook)
             ytd.download(links)
 
-    def set_progress_hook(self, hook : function):
+    def set_progress_hook(self, hook):
         self.progress_hook = hook
 
-    def set_postprocessing_hook(self, hook : function):
+    def set_postprocessing_hook(self, hook):
         self.postprocessing_hook = hook
-
-def progress_hook(d):
-    if d['status'] == 'downloading':
-        print(f"{d['downloaded_bytes'] / d['total_bytes'] * 100.0}%")
-    elif d['status'] == 'finished':
-        print("FINE DOWNLOAD")
-    elif d['status'] == 'error':
-        print("ERRORE")
-
-def postprocessing_hook(d):
-    if d['status'] == 'finished':
-        print(d['postprocessor'], "-- FINITO!")
 
