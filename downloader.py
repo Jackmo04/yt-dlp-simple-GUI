@@ -1,12 +1,12 @@
-from yt_dlp import YoutubeDL
+from yt_dlp import YoutubeDL, update
 from cli_to_api import cli_to_api
 
 class Downloader:
 
-    def downloadAudio(self, links : list, dest="~/Downloads/", playlist=False):
+    def download_audio(self, links : list, dest="~/Downloads/", playlist=False):
         self.download(links, ['-t', 'mp3'], dest, playlist)
 
-    def downloadVideo(self, links : list, dest="~/Downloads/", playlist=False):
+    def download_video(self, links : list, dest="~/Downloads/", playlist=False):
         self.download(links, ['-t', 'mp4'], dest, playlist)
 
     def download(self, links : list, options : list, dest="~/Downloads/", playlist=False):
@@ -28,6 +28,9 @@ class Downloader:
 
         with YoutubeDL(api_opt) as ytd:
             ytd.download(links)
+
+    def check_updates(self):
+        return update.Updater(YoutubeDL()).query_update() # TODO change this
 
 
 def downloading_hook(d):
