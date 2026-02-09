@@ -4,13 +4,13 @@ from updater import Updater
 class Controller:
     def __init__(self, gui):
         self.gui = gui
-        self.updater = Updater()
+        # self.updater = Updater()
         # print(updater.is_update_available())
         # updater.update_and_restart()
 
-        self.dl = Downloader()
-        self.dl.set_progress_hook(progress_hook)
-        self.dl.set_postprocessing_hook(postprocessing_hook)
+        # self.dl = Downloader()
+        # self.dl.set_progress_hook(progress_hook)
+        # self.dl.set_postprocessing_hook(postprocessing_hook)
 
 def progress_hook(d):
     if d['status'] == 'downloading':
