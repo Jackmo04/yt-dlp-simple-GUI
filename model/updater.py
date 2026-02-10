@@ -10,15 +10,23 @@ class Updater:
     def is_update_available(self):
         return self.ytdlp_updater.query_update() != None
 
-    def update_and_restart(self):
+    def update(self):
+        '''
+        Should always be called in tandem with restart() to ensure the new version is used immediately after update.
+        '''
         if self.is_update_available():
             try:
                 subprocess.check_call([sys.executable, "-m", "pip", "install", "--upgrade", "yt_dlp"])
-                print("Aggiornamento completato. Riavvio...")
-                os.execv(sys.executable, [sys.executable] + sys.argv)
+                print("Aggiornamento completato. In attesa del riavvio...")
+                # Removed automatic restart to allow manual control
+                return True
 
             except subprocess.CalledProcessError as e:
                 print(f"Errore durante l'aggiornamento: {e}")
                 sys.exit(1)
         else:
-            print("No update available")
+            return False
+
+    def restart(self):
+        print("Riavvio...")
+        os.execv(sys.executable, [sys.executable] + sys.argv)

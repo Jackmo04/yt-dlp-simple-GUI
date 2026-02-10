@@ -6,7 +6,7 @@ class Controller:
         self.view = view
         
         self.updater = Updater()
-        self.is_update_available = self.updater.is_update_available()
+        self.update_available = self.updater.is_update_available()
 
         self.dl = Downloader()
         self.dl.set_progress_hook(progress_hook)
@@ -22,10 +22,13 @@ class Controller:
         self.dl.download_video(links, dest, playlist)
 
     def is_update_available(self):
-        return self.is_update_available
+        return self.update_available
     
-    def update_and_restart(self):
-        self.updater.update_and_restart()
+    def update(self):
+        return self.updater.update()
+
+    def restart(self):
+        self.updater.restart()
 
 def progress_hook(d):
     if d['status'] == 'downloading':
