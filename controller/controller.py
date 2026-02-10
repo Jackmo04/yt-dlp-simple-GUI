@@ -49,10 +49,9 @@ class Controller:
             completion = int(d['downloaded_bytes'] / d['total_bytes'] * 100)
             self.view.update_single_progress(self.current, self.num_todo, completion)
         elif d['status'] == 'finished':
-            print("FINE DOWNLOAD")
+            print(f"Completato download {self.current} di {self.num_todo}")
         elif d['status'] == 'error':
             self.view.display_error("Errore", "Si è verificato un errore durante il download.")
-            print("ERRORE")
 
     def postprocessing_hook(self, d):
         if d['status'] == 'finished':
