@@ -8,13 +8,13 @@ class Downloader:
         self.progress_hook = None
         self.postprocessing_hook = None
 
-    def download_audio(self, links : list, dest=Path.home() / "Downloads", playlist=False):
-        self.download(links, ['-t', 'mp3'], dest, playlist)
+    def download_audio(self, links : list, playlist=False, dest=Path.home() / "Downloads"):
+        self.download(links, ['-t', 'mp3'], playlist, dest)
 
-    def download_video(self, links : list, dest=Path.home() / "Downloads", playlist=False):
-        self.download(links, ['-t', 'mp4'], dest, playlist)
+    def download_video(self, links : list, playlist=False, dest=Path.home() / "Downloads"):
+        self.download(links, ['-t', 'mp4'], playlist, dest)
 
-    def download(self, links : list, options : list, dest=Path.home() / "Downloads", playlist=False):
+    def download(self, links : list, options : list, playlist=False, dest=Path.home() / "Downloads"):
         actual_dest = dest / "%(title)s.%(ext)s"
         cli_opt = options + [
             '-o', str(actual_dest),

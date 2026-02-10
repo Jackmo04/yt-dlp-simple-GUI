@@ -43,20 +43,27 @@ class GUI:
         self.combo_playlist.pack()
 
         # --- PULSANTE ---
-        btn_azione = ttk.Button(self.root, text="Scarica tutto", command=self.start_download, width=20, style="Grande.TButton")
+        btn_azione = ttk.Button(self.root, text="Scarica tutto", command=self.download, width=20, style="Grande.TButton")
         btn_azione.grid(row=4, column=0, columnspan=2, pady=20)
 
         # --- PERCENTUALE + PROGRESS BAR ---
-        lbl_percentuale = tk.Label(self.root, text="Completamento: 0%")
-        lbl_percentuale.grid(row=5, column=0, columnspan=2, pady=(20, 0))
+        self.lbl_perc_singolo = tk.Label(self.root, text="Video 0 di 0 | Completamento: 0%")
+        self.lbl_perc_singolo.grid(row=5, column=0, columnspan=2, pady=(20, 0))
 
-        self.barra_progresso = ttk.Progressbar(self.root, orient="horizontal", mode="determinate")
-        self.barra_progresso.grid(row=6, column=0, columnspan=3, padx=20, pady=5, sticky="ew")
-        self.barra_progresso["value"] = 0
+        self.progresso_singolo = ttk.Progressbar(self.root, orient="horizontal", mode="determinate")
+        self.progresso_singolo.grid(row=6, column=0, columnspan=3, padx=20, pady=5, sticky="ew")
+        self.progresso_singolo["value"] = 0
+
+        self.lbl_perc_totale = tk.Label(self.root, text="Totale | Completamento: 0%")
+        self.lbl_perc_totale.grid(row=7, column=0, columnspan=2, pady=(10, 0))
+
+        self.progresso_totale = ttk.Progressbar(self.root, orient="horizontal", mode="determinate")
+        self.progresso_totale.grid(row=8, column=0, columnspan=3, padx=20, pady=5, sticky="ew")
+        self.progresso_totale["value"] = 0
 
         # --- OUTPUT ---
         lbl_output_box = tk.Label(self.root, text="Messaggi di output", relief="sunken", bd=1, height=4)
-        lbl_output_box.grid(row=7, column=0, columnspan=2, padx=20, pady=20, sticky="ew")
+        lbl_output_box.grid(row=9, column=0, columnspan=2, padx=20, pady=20, sticky="ew")
 
     def set_controller(self, controller):
         self.controller = controller
@@ -66,10 +73,24 @@ class GUI:
     def begin(self):
         self.root.mainloop()
 
-    def start_download(self):
-        urls = self.link_area.get("1.0", tk.END).strip().splitlines()
-        tipo = self.combo_tipo.get()
-        playlist = self.combo_playlist.get()
+    def download(self):
+        def start_download():
+            urls = self.link_area.get("1.0", tk.END).strip().splitlines()
+            tipo = self.combo_tipo.get()
+            playlist = self.combo_playlist.get() == "Sì"
+            if tipo == "Audio (mp3)":
+                self.controller.download_audio(urls, playlist)
+            else:
+                self.controller.download_video(urls, playlist)
+
+        threading.Thread(target=start_download).start()
+
+    def update_progress(self, done, todo, percent_singolo, percent_totale):
+        self.progresso_singolo["value"] = percent_singolo
+        self.lbl_perc_singolo.config(text=f"Video {done} di {todo} | Completamento: {percent_singolo}%")
+        self.progresso_totale["value"] = percent_totale
+        self.lbl_perc_totale.config(text=f"Totale | Completamento: {percent_totale}%")
+        self.root.update_idletasks() # Aggiorna la GUI per riflettere il cambiamento
         
     def show_update_available(self):
         r = messagebox.askyesno("Aggiornamento disponibile", 

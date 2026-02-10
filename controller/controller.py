@@ -9,17 +9,20 @@ class Controller:
         self.update_available = self.updater.is_update_available()
 
         self.dl = Downloader()
-        self.dl.set_progress_hook(progress_hook)
-        self.dl.set_postprocessing_hook(postprocessing_hook)
+        self.dl.set_progress_hook(self.progress_hook)
+        self.dl.set_postprocessing_hook(self.postprocessing_hook)
+
+        self.num_todo = 0
+        self.num_done = 0
 
         # URL = ["https://www.youtube.com/watch?v=9ruLQ1Hmhjs"] # TESTING URL
         # self.dl.download_audio(URL)
 
-    def download_audio(self, links : list, dest, playlist):
-        self.dl.download_audio(links, dest, playlist)
+    def download_audio(self, links : list, playlist : bool):
+        self.dl.download_audio(links, playlist)
 
-    def download_video(self, links : list, dest, playlist):
-        self.dl.download_video(links, dest, playlist)
+    def download_video(self, links : list, playlist : bool):
+        self.dl.download_video(links, playlist)
 
     def is_update_available(self):
         return self.update_available
@@ -30,16 +33,16 @@ class Controller:
     def restart(self):
         self.updater.restart()
 
-def progress_hook(d):
-    if d['status'] == 'downloading':
-        completion = int(d['downloaded_bytes'] / d['total_bytes'] * 100)
-        print(f"{completion}%", end=' > ')
-    elif d['status'] == 'finished':
-        print("FINE DOWNLOAD")
-    elif d['status'] == 'error':
-        print("ERRORE")
+    def progress_hook(self, d):
+        if d['status'] == 'downloading':
+            completion = int(d['downloaded_bytes'] / d['total_bytes'] * 100)
+            self.view.update_progress(completion)
+        elif d['status'] == 'finished':
+            print("FINE DOWNLOAD")
+        elif d['status'] == 'error':
+            print("ERRORE")
 
-def postprocessing_hook(d):
-    if d['status'] == 'finished':
-        print(d['postprocessor'], "-- FINITO!")
+    def postprocessing_hook(self, d):
+        if d['status'] == 'finished':
+            print(d['postprocessor'], "-- FINITO!")
 
