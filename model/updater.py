@@ -23,7 +23,7 @@ class Updater:
 
             except subprocess.CalledProcessError as e:
                 print(f"Errore durante l'aggiornamento: {e}")
-                sys.exit(1)
+                return False
         else:
             return False
 
