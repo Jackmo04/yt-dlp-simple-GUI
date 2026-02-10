@@ -43,8 +43,8 @@ class GUI:
         self.combo_playlist.pack()
 
         # --- PULSANTE ---
-        btn_azione = ttk.Button(self.root, text="Scarica tutto", command=self.download, width=20, style="Grande.TButton")
-        btn_azione.grid(row=4, column=0, columnspan=2, pady=20)
+        self.btn_azione = ttk.Button(self.root, text="Scarica tutto", command=self.download, width=20, style="Grande.TButton")
+        self.btn_azione.grid(row=4, column=0, columnspan=2, pady=20)
 
         # --- PERCENTUALE + PROGRESS BAR ---
         self.lbl_perc_singolo = tk.Label(self.root, text="Video 0 di 0 | Completamento: 0%")
@@ -61,10 +61,6 @@ class GUI:
         self.progresso_totale.grid(row=8, column=0, columnspan=3, padx=20, pady=5, sticky="ew")
         self.progresso_totale["value"] = 0
 
-        # --- OUTPUT ---
-        lbl_output_box = tk.Label(self.root, text="Messaggi di output", relief="sunken", bd=1, height=4)
-        lbl_output_box.grid(row=9, column=0, columnspan=2, padx=20, pady=20, sticky="ew")
-
     def set_controller(self, controller):
         self.controller = controller
         if self.controller.is_update_available():
@@ -75,6 +71,7 @@ class GUI:
 
     def download(self):
         def start_download():
+            self.btn_azione.config(state="disabled")
             urls = self.link_area.get("1.0", tk.END).strip().splitlines()
             tipo = self.combo_tipo.get()
             playlist = self.combo_playlist.get() == "Sì"
@@ -83,7 +80,17 @@ class GUI:
             else:
                 self.controller.download_video(urls, playlist)
 
+            # After the download is complete, reset the UI
+            self.link_area.delete("1.0", tk.END)
+            self.btn_azione.config(state="normal")
+
         threading.Thread(target=start_download).start()
+
+    def display_error(self, title, message):
+        messagebox.showerror(title, message)
+
+    def display_success(self, title, message):
+        messagebox.showinfo(title, message)
 
     def update_single_progress(self, current, todo, percent):
         self.progresso_singolo["value"] = percent

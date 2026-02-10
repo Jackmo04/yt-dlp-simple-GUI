@@ -48,6 +48,7 @@ class Controller:
         elif d['status'] == 'finished':
             print("FINE DOWNLOAD")
         elif d['status'] == 'error':
+            self.view.display_error("Errore", "Si è verificato un errore durante il download.")
             print("ERRORE")
 
     def postprocessing_hook(self, d):
@@ -57,5 +58,7 @@ class Controller:
                 self.view.update_total_progress(totale_completion)
                 if self.current < self.num_todo:
                     self.current += 1
+                else:
+                    self.view.display_success("Download completato", "Download completato con successo!")
                 
 
