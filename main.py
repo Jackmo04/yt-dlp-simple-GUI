@@ -1,4 +1,4 @@
-from view.gui import GUI
+from view.gui.gui import GUI
 from controller.controller import Controller
 
 if __name__ == "__main__":

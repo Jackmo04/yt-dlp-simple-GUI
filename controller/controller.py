@@ -2,15 +2,30 @@ from model.downloader import Downloader
 from model.updater import Updater
 
 class Controller:
-    def __init__(self, gui):
-        self.gui = gui
-        # self.updater = Updater()
-        # print(updater.is_update_available())
-        # updater.update_and_restart()
+    def __init__(self, view=None):
+        self.view = view
+        
+        self.updater = Updater()
+        self.is_update_available = self.updater.is_update_available()
 
-        # self.dl = Downloader()
-        # self.dl.set_progress_hook(progress_hook)
-        # self.dl.set_postprocessing_hook(postprocessing_hook)
+        self.dl = Downloader()
+        self.dl.set_progress_hook(progress_hook)
+        self.dl.set_postprocessing_hook(postprocessing_hook)
+
+        # URL = ["https://www.youtube.com/watch?v=9ruLQ1Hmhjs"] # TESTING URL
+        # self.dl.download_audio(URL)
+
+    def download_audio(self, links : list, dest, playlist):
+        self.dl.download_audio(links, dest, playlist)
+
+    def download_video(self, links : list, dest, playlist):
+        self.dl.download_video(links, dest, playlist)
+
+    def is_update_available(self):
+        return self.is_update_available
+    
+    def update_and_restart(self):
+        self.updater.update_and_restart()
 
 def progress_hook(d):
     if d['status'] == 'downloading':
@@ -25,5 +40,3 @@ def postprocessing_hook(d):
     if d['status'] == 'finished':
         print(d['postprocessor'], "-- FINITO!")
 
-# URL = ["https://www.youtube.com/watch?v=9ruLQ1Hmhjs"] # TESTING URL
-# dl.download_audio(URL)

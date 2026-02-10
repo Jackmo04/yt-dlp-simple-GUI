@@ -1,5 +1,6 @@
 from yt_dlp import YoutubeDL
-from utils.cli_to_api import cli_to_api
+from model.utils.cli_to_api import cli_to_api
+from pathlib import Path
 
 class Downloader:
 
@@ -7,17 +8,16 @@ class Downloader:
         self.progress_hook = None
         self.postprocessing_hook = None
 
-    def download_audio(self, links : list, dest="~/Downloads/", playlist=False):
+    def download_audio(self, links : list, dest=Path.home() / "Downloads", playlist=False):
         self.download(links, ['-t', 'mp3'], dest, playlist)
 
-    def download_video(self, links : list, dest="~/Downloads/", playlist=False):
+    def download_video(self, links : list, dest=Path.home() / "Downloads", playlist=False):
         self.download(links, ['-t', 'mp4'], dest, playlist)
 
-    def download(self, links : list, options : list, dest="~/Downloads/", playlist=False):
-        actual_dest = dest + "%(title)s.%(ext)s"
-
+    def download(self, links : list, options : list, dest=Path.home() / "Downloads", playlist=False):
+        actual_dest = dest / "%(title)s.%(ext)s"
         cli_opt = options + [
-            '-o', actual_dest,
+            '-o', str(actual_dest),
             '--yes-playlist' if playlist else '--no-playlist',
             "--embed-thumbnail",
             "--quiet"
