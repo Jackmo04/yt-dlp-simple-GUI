@@ -37,7 +37,7 @@ class GUI:
 
         frame_menu2 = tk.Frame(self.root)
         frame_menu2.grid(row=3, column=1, pady=10)
-        tk.Label(frame_menu2, text="Sono delle playlist").pack()
+        tk.Label(frame_menu2, text="Sono delle playlist?").pack()
         self.combo_playlist = ttk.Combobox(frame_menu2, values=["No", "Sì"], width=20, state="readonly")
         self.combo_playlist.current(0)
         self.combo_playlist.pack()
@@ -71,10 +71,17 @@ class GUI:
 
     def download(self):
         def start_download():
-            self.btn_azione.config(state="disabled")
             urls = self.link_area.get("1.0", tk.END).strip().splitlines()
             tipo = self.combo_tipo.get()
             playlist = self.combo_playlist.get() == "Sì"
+
+            if not urls or urls == [""]:
+                self.display_error("Errore", "Per favore, inserisci almeno un URL.")
+                return
+
+            self.btn_azione.config(state="disabled")
+            self.root.protocol("WM_DELETE_WINDOW", self.on_close_during_download)
+
             if tipo == "Audio (mp3)":
                 self.controller.download_audio(urls, playlist)
             else:
@@ -83,8 +90,14 @@ class GUI:
             # After the download is complete, reset the UI
             self.link_area.delete("1.0", tk.END)
             self.btn_azione.config(state="normal")
+            self.root.protocol("WM_DELETE_WINDOW", self.root.destroy)
 
         threading.Thread(target=start_download).start()
+
+    def on_close_during_download(self):
+        r = messagebox.askyesno("Download in corso", "Un download è attualmente in corso. Sei sicuro di voler chiudere il programma? Il download verrà interrotto.")
+        if r:
+            self.root.destroy()
 
     def display_error(self, title, message):
         messagebox.showerror(title, message)

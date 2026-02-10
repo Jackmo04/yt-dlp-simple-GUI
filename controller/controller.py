@@ -26,11 +26,21 @@ class Controller:
 
     def download_audio(self, links : list, playlist : bool):
         self.new_download(len(links))
-        self.dl.download_audio(links, playlist)
+        try:
+            self.dl.download_audio(links, playlist)
+        except Exception as e:
+            self.view.display_error("Errore", f"Si è verificato un errore durante il download:\n{str(e).split('] ')[-1]}")
+            self.new_download(0)
+            print(f"ERRORE: {str(e)}")
 
     def download_video(self, links : list, playlist : bool):
         self.new_download(len(links))
-        self.dl.download_video(links, playlist)
+        try:
+            self.dl.download_video(links, playlist)
+        except Exception as e:
+            self.view.display_error("Errore", f"Si è verificato un errore durante il download:\n{str(e).split('] ')[-1]}")
+            self.new_download(0)
+            print(f"ERRORE: {str(e)}")
 
     def is_update_available(self):
         return self.update_available
