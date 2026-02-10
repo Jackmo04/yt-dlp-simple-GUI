@@ -85,12 +85,15 @@ class GUI:
 
         threading.Thread(target=start_download).start()
 
-    def update_progress(self, done, todo, percent_singolo, percent_totale):
-        self.progresso_singolo["value"] = percent_singolo
-        self.lbl_perc_singolo.config(text=f"Video {done} di {todo} | Completamento: {percent_singolo}%")
-        self.progresso_totale["value"] = percent_totale
-        self.lbl_perc_totale.config(text=f"Totale | Completamento: {percent_totale}%")
-        self.root.update_idletasks() # Aggiorna la GUI per riflettere il cambiamento
+    def update_single_progress(self, current, todo, percent):
+        self.progresso_singolo["value"] = percent
+        self.lbl_perc_singolo.config(text=f"Video {current} di {todo} | Completamento: {percent}%")
+        self.root.update_idletasks()
+
+    def update_total_progress(self, percent):
+        self.progresso_totale["value"] = percent
+        self.lbl_perc_totale.config(text=f"Totale | Completamento: {percent}%")
+        self.root.update_idletasks()
         
     def show_update_available(self):
         r = messagebox.askyesno("Aggiornamento disponibile", 
