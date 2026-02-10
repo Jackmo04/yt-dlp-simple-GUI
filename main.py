@@ -1,5 +1,5 @@
-from gui import GUI
-from controller import Controller
+from view.gui import GUI
+from controller.controller import Controller
 
 if __name__ == "__main__":
     gui = GUI()

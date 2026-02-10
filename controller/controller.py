@@ -1,5 +1,5 @@
-from downloader import Downloader
-from updater import Updater
+from model.downloader import Downloader
+from model.updater import Updater
 
 class Controller:
     def __init__(self, gui):
