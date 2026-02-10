@@ -47,14 +47,14 @@ class GUI:
         self.btn_azione.grid(row=4, column=0, columnspan=2, pady=20)
 
         # --- PERCENTUALE + PROGRESS BAR ---
-        self.lbl_perc_singolo = tk.Label(self.root, text="Video 0 di 0 | Completamento: 0%")
+        self.lbl_perc_singolo = tk.Label(self.root, text="Download video 0 di 0 | Completamento: 0%")
         self.lbl_perc_singolo.grid(row=5, column=0, columnspan=2, pady=(20, 0))
 
         self.progresso_singolo = ttk.Progressbar(self.root, orient="horizontal", mode="determinate")
         self.progresso_singolo.grid(row=6, column=0, columnspan=3, padx=20, pady=5, sticky="ew")
         self.progresso_singolo["value"] = 0
 
-        self.lbl_perc_totale = tk.Label(self.root, text="Totale | Completamento: 0%")
+        self.lbl_perc_totale = tk.Label(self.root, text="Completamento totale: 0%")
         self.lbl_perc_totale.grid(row=7, column=0, columnspan=2, pady=(10, 0))
 
         self.progresso_totale = ttk.Progressbar(self.root, orient="horizontal", mode="determinate")
@@ -107,12 +107,12 @@ class GUI:
 
     def update_single_progress(self, current, todo, percent):
         self.progresso_singolo["value"] = percent
-        self.lbl_perc_singolo.config(text=f"Video {current} di {todo} | Completamento: {percent}%")
+        self.lbl_perc_singolo.config(text=f"Download video {current} di {todo} | Completamento: {percent}%")
         self.root.update_idletasks()
 
     def update_total_progress(self, percent):
         self.progresso_totale["value"] = percent
-        self.lbl_perc_totale.config(text=f"Totale | Completamento: {percent}%")
+        self.lbl_perc_totale.config(text=f"Completamento totale: {percent}%")
         self.root.update_idletasks()
         
     def show_update_available(self):

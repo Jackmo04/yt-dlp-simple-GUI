@@ -15,32 +15,25 @@ class Controller:
         self.num_todo = 0
         self.current = 0
 
-        # URL = ["https://www.youtube.com/watch?v=9ruLQ1Hmhjs"] # TESTING URL
-        # self.dl.download_audio(URL)
-
-    def new_download(self, todo):
-        self.num_todo = todo
+    def new_download(self, handler, links : list, playlist : bool):
+        self.num_todo = len(links)
         self.current = 1
         self.view.update_single_progress(self.current, self.num_todo, 0)
         self.view.update_total_progress(0)
+        try:
+            handler(links, playlist)
+        except Exception as e:
+            self.view.display_error("Errore", f"Si è verificato un errore durante il download:\n{str(e).split('] ')[-1]}")
+            self.current = 0
+            self.num_todo = 0
+            self.view.update_single_progress(self.current, self.num_todo, 0)
+            self.view.update_total_progress(0)
 
     def download_audio(self, links : list, playlist : bool):
-        self.new_download(len(links))
-        try:
-            self.dl.download_audio(links, playlist)
-        except Exception as e:
-            self.view.display_error("Errore", f"Si è verificato un errore durante il download:\n{str(e).split('] ')[-1]}")
-            self.new_download(0)
-            print(f"ERRORE: {str(e)}")
+        self.new_download(self.dl.download_audio, links, playlist)
 
     def download_video(self, links : list, playlist : bool):
-        self.new_download(len(links))
-        try:
-            self.dl.download_video(links, playlist)
-        except Exception as e:
-            self.view.display_error("Errore", f"Si è verificato un errore durante il download:\n{str(e).split('] ')[-1]}")
-            self.new_download(0)
-            print(f"ERRORE: {str(e)}")
+        self.new_download(self.dl.download_video, links, playlist)
 
     def is_update_available(self):
         return self.update_available
