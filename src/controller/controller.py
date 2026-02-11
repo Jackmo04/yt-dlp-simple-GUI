@@ -1,12 +1,17 @@
 from model.downloader import Downloader
 from model.updater import Updater
+import sys
 
 class Controller:
     def __init__(self, view=None):
         self.view = view
-        
-        self.updater = Updater()
-        self.update_available = self.updater.is_update_available()
+
+        # Auto updates for compiled versions aren't supported yet
+        if not getattr(sys, 'frozen', False):
+            self.updater = Updater()
+            self.update_available = self.updater.is_update_available()
+        else:
+            self.update_available = False
 
         self.dl = Downloader()
         self.dl.set_progress_hook(self.progress_hook)
