@@ -3,7 +3,7 @@ import platform
 import os
 import sys
 
-APP_NAME = "yt-dlp-GUI" 
+APP_NAME = "ytdlpGUI" 
 MAIN_SCRIPT = "src/main.py"
 ICON_WIN = "src/assets/icona.ico"
 ICON_LINUX = "src/assets/icona.png"
@@ -36,7 +36,6 @@ def compile():
     try:
         subprocess.run(command, check=True)
         print("\n[+] Compilation completed successfully!")
-        print("[*] You can find the executable at ", os.path.abspath("dist"))
     except subprocess.CalledProcessError:
         print("\n[-] Error during compilation.")
     except FileNotFoundError:
