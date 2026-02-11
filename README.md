@@ -14,10 +14,11 @@ Simple Python program implementing a GUI for downloading Youtube Audio/Video usi
 
 #### Setup
 - Clone this repo to a local directory
-- On Linux run `/fullSetup.sh` 
+- On Linux run `./fullSetup.sh` 
 - On Windows run `.\FullSetup.ps1` [[1]](#note1)
 - If succesfull, you'll find the executable in the newly created `bin/` directory
 
 ## Notes
 
 <a id='note1'>[1]</a> - Windows Powershell scripts might not work because they aren't signed. In this case it *should* be fine to just copy and paste their content directly into Powershell.
+
