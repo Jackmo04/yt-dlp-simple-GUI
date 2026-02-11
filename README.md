@@ -6,7 +6,7 @@ Simple Python program implementing a GUI for downloading Youtube Audio/Video usi
 
 ## Installation
 - If you're on Windows, simply download `ytdlpGUI.exe` from the [latest release](https://github.com/Jackmo04/yt-dlp-simple-GUI/releases/latest).
-- If you're on Linux, follow the steps below
+- If you're on Linux, follow the steps at [Manual compilation](#manual-compilation)
 
 ### Manual compilation
 #### Prerequisites
@@ -21,4 +21,5 @@ Simple Python program implementing a GUI for downloading Youtube Audio/Video usi
 ## Notes
 
 <a id='note1'>[1]</a> - Windows Powershell scripts might not work because they aren't signed. In this case it *should* be fine to just copy and paste their content directly into Powershell.
+
 
