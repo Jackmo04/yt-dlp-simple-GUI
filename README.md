@@ -32,15 +32,18 @@ Simple Python program implementing a GUI for downloading Youtube Audio/Video usi
 ```powershell
 powershell.exe -ExecutionPolicy Bypass -File .\Run.ps1
 ```
-If you just want to be able to run the script without bypassing the execution policy every time, you can change the execution policy for the current user (**MIGHT HAVE SECURITY IMPLICATIONS**) by running:
+If you just want to be able to run the script without bypassing the execution policy every time, you can change the execution policy for the current user, however note that this would have **SERIOUS SECURITY IMPLICATIONS**
+and as such it is **STRONGLY DISCOURAGED**!\
+If you still want to proceed, run the following *at your own risk* in Powershell as an administrator:
 ```powershell
-Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
+Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy Bypass
 ```
-in Powershell as an administrator.
 For more information, see [this](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.security/set-executionpolicy) Microsoft documentation.
 
+---
 <a id='note2'>[2]</a> - On Linux, you might need to make the script executable by running:
 ```bash
 chmod +x ./run.sh
 ``` 
 before executing it.
+
