@@ -5,7 +5,7 @@ Simple Python program implementing a GUI for downloading Youtube Audio/Video usi
 **Disclaimer:** This was intended to be a project for personal use and as such not a lot of attention was put into making it accessible to everyone.
 
 ## Installation
-- It is reccomended for now that you **don't** use the compiled version, as it doesn't yet support update checking. If you still want to use it, you can find the latest release [here](https://github.com/Jackmo04/yt-dlp-simple-GUI/releases/latest).
+- It is recomended for now that you **don't** use the compiled version, as it doesn't yet support update checking. If you still want to use it, you can find the latest release [here](https://github.com/Jackmo04/yt-dlp-simple-GUI/releases/latest).
 
 ## Usage
 ### Prerequisites
@@ -46,4 +46,5 @@ For more information, see [this](https://docs.microsoft.com/en-us/powershell/mod
 chmod +x ./run.sh
 ``` 
 before executing it.
+
 
