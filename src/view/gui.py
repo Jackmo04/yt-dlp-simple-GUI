@@ -11,7 +11,7 @@ class GUI:
         self.root.title("yt-dlp | Simple GUI")
         self.root.geometry("1000x600")
 
-        icon = tk.PhotoImage(file=Path(__file__).parent.parent / "assets" / "yt_dlp.png")
+        icon = tk.PhotoImage(file=Path(__file__).parent.parent / "assets" / "icona.png")
         self.root.iconphoto(False, icon)
 
         self.style = ttk.Style(self.root)
