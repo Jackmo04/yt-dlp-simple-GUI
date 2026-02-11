@@ -2,13 +2,17 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
 import threading
+from pathlib import Path
 
 class GUI:
     def __init__(self):
         self.controller = None
         self.root = tk.Tk()
-        self.root.title("YouTube Downloader")
+        self.root.title("yt-dlp | Simple GUI")
         self.root.geometry("1000x600")
+
+        icon = tk.PhotoImage(file=Path(__file__).parent.parent / "assets" / "yt_dlp.png")
+        self.root.iconphoto(False, icon)
 
         self.style = ttk.Style(self.root)
         self.style.configure("Grande.TButton", font=("Arial", 14, "bold"))
@@ -17,7 +21,7 @@ class GUI:
         self.root.columnconfigure(1, weight=1, uniform="col")
 
         # --- TITOLO ---
-        lbl_titolo = tk.Label(self.root, text="Benvenuto", font=("Arial", 20, "bold"))
+        lbl_titolo = tk.Label(self.root, text="YouTube Downloader", font=("Arial", 20, "bold"))
         lbl_titolo.grid(row=0, column=0, columnspan=2, pady=20)
 
         # --- AREA LINK ---
